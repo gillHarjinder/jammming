@@ -5,9 +5,9 @@ import './Track.css';
 class Track extends React.Component {
 
 	renderAction(){
-		if(isRemoval){
+		//if(isRemoval){
 			
-		}
+		//}
 	}
 
 	render() {
@@ -18,12 +18,10 @@ class Track extends React.Component {
     				<p> track artist will go here |  track album will go here </p>
   				</div>
   				<a className="Track-action"> + or - will go here </a>
-  				<div className="Track-information">
     				<h3> Tiny Dancer </h3>
     				<p> Elton John |  Madman Across The Water </p>
   				</div>
-  				<a className="Track-action"> + or - will go here </a>
-			</div>
+  				
 		);
 	}
 }
