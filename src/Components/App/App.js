@@ -5,6 +5,19 @@ import SearchBar from '../SearchBar/SearchBar';
 import Playlist from '../Playlist/Playlist';
 import SearchResults from '../SearchResults/SearchResults';
 
+
+const track = {
+  trackName: 'Tiny Dancer',
+  artistName: 'Elton John',
+  albumName: 'Madman Across The Water'
+};
+
+
+const tracks = [
+  track,
+  track
+];
+
 class App extends Component {
   render() {
     return (
@@ -13,7 +26,7 @@ class App extends Component {
         <div className="App">
           <SearchBar/>
           <div className="App-playlist">
-            <SearchResults/>
+            <SearchResults tracks={tracks}/>
             <Playlist/>
           </div>
         </div>

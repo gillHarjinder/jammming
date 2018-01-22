@@ -14,14 +14,10 @@ class Track extends React.Component {
 		return(
 			<div className="Track">
   				<div className="Track-information">
-    				<h3> track name will go here </h3>
-    				<p> track artist will go here |  track album will go here </p>
+    				<h3> {this.props.track.trackName} </h3>
+    				<p> {this.props.track.artistName} |  {this.props.track.albumName}</p>
   				</div>
-  				<a className="Track-action"> + or - will go here </a>
-    				<h3> Tiny Dancer </h3>
-    				<p> Elton John |  Madman Across The Water </p>
-  				</div>
-  				
+  		 	</div>			
 		);
 	}
 }
