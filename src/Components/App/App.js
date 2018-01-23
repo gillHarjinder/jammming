@@ -7,18 +7,29 @@ import SearchResults from '../SearchResults/SearchResults';
 
 
 const track = {
-  trackName: 'Tiny Dancer',
-  artistName: 'Elton John',
-  albumName: 'Madman Across The Water'
+  "id": 1234,
+  "name": "Tiny Dancer",
+  "artist": "Elton John",
+  "album": "Madman Across The Water"
 };
 
 
-const tracks = [
-  track,
-  track
-];
-
 class App extends Component {
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+      searchResults: [
+        track,
+      ]
+    }
+
+  }
+
+
+
+// add <Playlist/> under <SearchResult/>
   render() {
     return (
       <div>
@@ -26,8 +37,8 @@ class App extends Component {
         <div className="App">
           <SearchBar/>
           <div className="App-playlist">
-            <SearchResults tracks={tracks}/>
-            <Playlist/>
+            <SearchResults searchResults={this.state.searchResults} />
+            
           </div>
         </div>
       </div>
