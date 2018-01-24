@@ -1,20 +1,23 @@
-import React, { Component } from 'react';
+//Imported the Reack and App.ccs file
+
+import React from 'react';
 import './App.css';
 
+//Imported SerachBar, Playlist and SearchResult files
 import SearchBar from '../SearchBar/SearchBar';
 import Playlist from '../Playlist/Playlist';
 import SearchResults from '../SearchResults/SearchResults';
 
 
 const track = {
-  "id": 1234,
   "name": "Tiny Dancer",
   "artist": "Elton John",
   "album": "Madman Across The Water"
 };
 
 
-class App extends Component {
+
+class App extends React.Component {
 
   constructor(props){
     super(props);
@@ -22,6 +25,12 @@ class App extends Component {
     this.state = {
       searchResults: [
         track,
+        track,
+        track
+      ],
+      playlistName: 'MyList',
+      playlistTracks: [
+        track
       ]
     }
 
@@ -38,7 +47,7 @@ class App extends Component {
           <SearchBar/>
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} />
-            
+            <Playlist playlistTracks={this.state.playlistTracks} playlistName={this.state.playlistName} />
           </div>
         </div>
       </div>
