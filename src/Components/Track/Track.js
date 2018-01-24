@@ -8,6 +8,7 @@ class Track extends React.Component {
 		super(props);
 
 		this.addTrack = this.addTrack.bind(this);
+		this.removeTrack = this.removeTrack.bind(this);
 	}
 
 	// this method return - anchor if isRemoval is true and + anchor 
@@ -15,12 +16,16 @@ class Track extends React.Component {
 	renderAction(){
 		// variable = (condition) ? (if True) : (else False)
 		let isRemoval = this.props.OnRemove ? true : false 
-		return isRemoval ? <a className="Track-action">-</a> : <a className="Track-action" onClick={this.addTrack} >+</a>
+		return isRemoval ? <a className="Track-action" onClick={this.removeTrack}>-</a> : <a className="Track-action" onClick={this.addTrack}>+</a>
 
 	}
 
 	addTrack() {
 		this.props.onAdd(this.props.track);
+	}
+
+	removeTrack(){
+		this.props.OnRemove(this.props.track);
 	}
 
 	render() {
@@ -30,6 +35,7 @@ class Track extends React.Component {
     				<h3>{this.props.track.name}</h3>
           			<p>{this.props.track.artist} | {this.props.track.album}</p>
   				</div>
+  				{this.renderAction()}
   		 	</div>			
 		);
 	}

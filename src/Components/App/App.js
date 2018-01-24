@@ -36,7 +36,7 @@ class App extends React.Component {
 
     // binding the values
     this.addTrack = this.addTrack.bind(this);
-    //this.removeTrack = this.removeTrack.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
 
   }
 
@@ -52,7 +52,18 @@ class App extends React.Component {
     this.setState({playlistTracks});
   }
 
-  
+  /**
+  This method is remove the song from the 
+  new playlist 
+  variable trackIndex get the Index of 'track' from newPlaylist
+  then -> use splice method to remove that track from new list
+  */
+  removeTrack(track){
+    let playlistTracks = this.state.playlistTracks;
+    let trackIndex = playlistTracks.findIndex(valueOfIndex => valueOfIndex.id === track.id);
+    playlistTracks.splice(trackIndex, 1);
+    this.setState({playlistTracks})
+  }
 
 
 // add <Playlist/> under <SearchResult/>
