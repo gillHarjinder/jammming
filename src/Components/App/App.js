@@ -10,6 +10,7 @@ import SearchResults from '../SearchResults/SearchResults';
 
 
 const track = {
+  "id": "1234",
   "name": "Tiny Dancer",
   "artist": "Elton John",
   "album": "Madman Across The Water"
@@ -25,8 +26,7 @@ class App extends React.Component {
     this.state = {
       searchResults: [
         track,
-        track,
-        track
+        
       ],
       playlistName: 'MyList',
       playlistTracks: [
@@ -34,8 +34,25 @@ class App extends React.Component {
       ]
     }
 
+    // binding the values
+    this.addTrack = this.addTrack.bind(this);
+    //this.removeTrack = this.removeTrack.bind(this);
+
   }
 
+  /**
+  This method is add the song to the 
+  new playlist from search Results
+  */
+  addTrack(track){
+    let playlistTracks = this.state.playlistTracks;
+    if(playlistTracks.track.id !== track.id){
+      playlistTracks = playlistTracks.concat(track)
+    }
+    this.setState({playlistTracks});
+  }
+
+  
 
 
 // add <Playlist/> under <SearchResult/>
@@ -46,7 +63,7 @@ class App extends React.Component {
         <div className="App">
           <SearchBar/>
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} />
+            <SearchResults onRemove={this.removeTrack} onAdd={this.addTrack} searchResults={this.state.searchResults} />
             <Playlist playlistTracks={this.state.playlistTracks} playlistName={this.state.playlistName} />
           </div>
         </div>

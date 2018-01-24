@@ -4,14 +4,23 @@ import './Track.css';
 
 class Track extends React.Component {
 	
+	constructor(props){
+		super(props);
+
+		this.addTrack = this.addTrack.bind(this);
+	}
 
 	// this method return - anchor if isRemoval is true and + anchor 
 	// in vice versa
 	renderAction(){
 		// variable = (condition) ? (if True) : (else False)
 		let isRemoval = this.props.OnRemove ? true : false 
-		return isRemoval ? <a className="Track-action">-</a> : <a className="Track-action">+</a>
+		return isRemoval ? <a className="Track-action">-</a> : <a className="Track-action" onClick={this.addTrack} >+</a>
 
+	}
+
+	addTrack() {
+		this.props.onAdd(this.props.track);
 	}
 
 	render() {
