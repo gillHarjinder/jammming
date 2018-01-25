@@ -7,6 +7,7 @@ import './App.css';
 import SearchBar from '../SearchBar/SearchBar';
 import Playlist from '../Playlist/Playlist';
 import SearchResults from '../SearchResults/SearchResults';
+import Spotify from '../../util/Spotify'
 
 
 const track = {
@@ -57,7 +58,11 @@ class App extends React.Component {
      This method search song from Spotify Library 
   */
   search(term){
-    console.log('search term: ', term)
+    Spotify.search(term).then((tracks) => {
+      this.setState({
+        searchResults: tracks
+      })
+    })
   }
 
 
@@ -114,8 +119,13 @@ class App extends React.Component {
         <div className="App">
           <SearchBar onSearch={this.search} />
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
-            <Playlist onSave={this.savePlaylist} onNameChange={this.updatePlaylistName} onRemove={this.removeTrack} playlistTracks={this.state.playlistTracks} playlistName={this.state.playlistName} />
+            <SearchResults searchResults={this.state.searchResults} 
+                            onAdd={this.addTrack} />
+            <Playlist onSave={this.savePlaylist} 
+                      onNameChange={this.updatePlaylistName} 
+                      onRemove={this.removeTrack} 
+                      playlistTracks={this.state.playlistTracks} 
+                      playlistName={this.state.playlistName} />
           </div>
         </div>
       </div>

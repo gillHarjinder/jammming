@@ -11,12 +11,16 @@ class Track extends React.Component {
     	this.removeTrack = this.removeTrack.bind(this)
 	}
 
-	// this method return - anchor if isRemoval is true and + anchor 
+	// this method return - anchor if isRemovalOrAdd is true and + anchor 
 	// in vice versa
 	renderAction(){
 		// variable = (condition) ? (if True) : (else False)
-		let isRemoval = this.props.OnRemove ? true : false
-		return isRemoval ? <a className="Track-action" onClick={this.removeTrack}>-</a> : <a className="Track-action" onClick={this.addTrack}>+</a>
+		let isRemovalOrAdd = this.props.onAdd ? true : false
+		if(isRemovalOrAdd){
+			return <a className="Track-action" onClick={this.addTrack}>+</a>
+		}else{
+			return <a className="Track-action" onClick={this.removeTrack}>-</a>
+		}
 
 	}
 
@@ -25,7 +29,7 @@ class Track extends React.Component {
 	}
 
 	removeTrack(){
-		this.props.OnRemove(this.props.track);
+		this.props.onRemove(this.props.track);
 	}
 
 	render() {
