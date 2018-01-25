@@ -10,21 +10,6 @@ import SearchResults from '../SearchResults/SearchResults';
 import Spotify from '../../util/Spotify'
 
 
-const track = {
-  "id": "1234",
-  "name": "Tiny Dancer",
-  "artist": "Elton John",
-  "album": "Madman Across The Water"
-};
-
-const track1 = {
-  "id": "2342",
-  "name": "Tiny Dancer",
-  "artist": "Tim McGraw",
-  "album": "Love Story"
-};
-
-
 
 class App extends React.Component {
 
@@ -32,15 +17,9 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      searchResults: [
-        track,
-        track1
-        
-      ],
+      searchResults: [],
       playlistName: 'MyList',
-      playlistTracks: [
-        track
-      ]
+      playlistTracks: []
     }
 
     // binding the values
@@ -71,8 +50,13 @@ class App extends React.Component {
 
   */
   savePlaylist(){
-    let trackURIs = this.state.playlistTracks.map(track => track.uri)
-    
+    const trackURIs = this.state.playlistTracks.map(track => track.uri)
+    Spotify.savePlaylist(this.state.playlistName, trackURIs)
+    this.setState({
+      searchResults: []
+    });
+    this.updatePlaylistName('MyList');
+    console.info(trackURIs);
   }
 
 
@@ -82,8 +66,11 @@ class App extends React.Component {
   */
 
   updatePlaylistName(name){
-    this.setState({playlistName: name})
+    this.setState({
+      playlistName: name
+    })
   }
+
 
   /*
       This method is add the song to the 
