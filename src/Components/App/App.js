@@ -32,34 +32,6 @@ class App extends React.Component {
   }
 
 
-
-  /*
-     This method search song from Spotify Library 
-  */
-  search(term){
-    Spotify.search(term).then((tracks) => {
-      this.setState({
-        searchResults: tracks
-      })
-    })
-  }
-
-
-  /*
-      This method generate the array 'trackURIs' form playlistTracks
-
-  */
-  savePlaylist(){
-    const trackURIs = this.state.playlistTracks.map(track => track.uri)
-    Spotify.savePlaylist(this.state.playlistName, trackURIs)
-    this.setState({
-      searchResults: []
-    });
-    this.updatePlaylistName('MyList');
-    console.info(trackURIs);
-  }
-
-
   /*
       This method update the new created playlist name
       by seting the state of playlist name
@@ -99,6 +71,32 @@ class App extends React.Component {
 
 
 
+    /*
+      This method generate the array 'trackURIs' form playlistTracks
+
+  */
+  savePlaylist(){
+    const trackURIs = this.state.playlistTracks.map(track => track.uri)
+    Spotify.savePlaylist(this.state.playlistName, trackURIs)
+    this.setState({
+      searchResults: []
+    });
+    this.updatePlaylistName('MyList');
+    console.info(trackURIs);
+  }
+
+
+    /*
+     This method search song from Spotify Library 
+  */
+  search(term){
+    console.log(`app js search method of ${term}`)
+     return Spotify.search(term)
+    .then(tracks => this.setState( { searchResults: tracks } ));
+  }
+
+
+
   render() {
     return (
       <div>
@@ -106,8 +104,7 @@ class App extends React.Component {
         <div className="App">
           <SearchBar onSearch={this.search} />
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} 
-                            onAdd={this.addTrack} />
+            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             <Playlist onSave={this.savePlaylist} 
                       onNameChange={this.updatePlaylistName} 
                       onRemove={this.removeTrack} 

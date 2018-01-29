@@ -1,34 +1,34 @@
 const clientId = '156d20b13c1c46f7a31717bfdbf78589'
 //const redirectURI = 'http://kindly-net.surge.sh'
-const redirectURI = 'http://localhost:3000/'
+const redirectURI = `http://localhost:3000/`
+const spotifyURL = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectURI}`
 
-
-let accessToken
+let accessToken = undefined
+let expirationTime = undefined
 
 const Spotify = {
 	getAccessToken(){
 		if(accessToken){
 			return accessToken;
-		}
+		} else {
 
-		// extracting the accessToken and expiration time from URL
-		let expirationTime;
-		if(window.location.href.match(/access_token=([^&]*)/)){
-			accessToken = window.location.href.match(/access_token=([^&]*)/)[1]
-      		expirationTime = window.location.href.match(/expires_in=([^&]*)/)[1]
-		}
-
-		/*
-			Under correct access Tokken and expiration Time
-			setup expiration time AND clear the access token after use
-		*/
-		
-		if(accessToken && expirationTime){
-			window.setTimeout(() => accessToken = undefined, expirationTime * 1000);
-			window.history.pushState('Access Token', null, '/');
-			return accessToken
-		} else{
-			return window.location.href = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectURI}`
+			const accessTokenGetFromUrl =  window.location.href.match(/access_token=([^&]*)/);
+      		const expirationTimeGetFromUrl = window.location.href.match(/expires_in=([^&]*)/);
+			
+			/*
+				Under correct access Tokken and expiration Time
+				setup expiration time AND clear the access token after use
+			*/
+			
+			if(accessTokenGetFromUrl && expirationTimeGetFromUrl){
+				accessToken = accessTokenGetFromUrl[1]
+				expirationTime = expirationTimeGetFromUrl[1]
+				window.setTimeout(() => accessToken = '', expirationTime * 1000);
+				window.history.pushState('Access Token', null, '/');
+				return accessToken;
+			} else {
+				window.location = spotifyURL
+			}
 		}
 
 	},
@@ -40,33 +40,25 @@ const Spotify = {
 	*/
 
 	search(term){
-		return new Promise((resolve, reject) => {
-
-			accessToken = this.getAccessToken()
-
-			fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
-				headers:{
-					Authorization: `Bearer ${accessToken}`
-				}
-			})
-			.then(response => response.json())
-			.then(jsonResponse => {
-				if(!jsonResponse.tracks){
-					return [];
-				} else {
-					return jsonResponse.tracks.items.map(track => {
-						return {
-							id: track.id,
-							name: track.name,
-							artist: track.artists[0].name,
-							album: track.album.name,
-							uri: track.uri
-						}
-					})
-				}
-			})
-
-		})
+		const accessToken = Spotify.getAccessToken();
+    	return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
+      		headers: {
+        		Authorization: `Bearer ${accessToken}`
+      			}
+    		}).then(response => {
+      		return response.json();
+    		}).then(jsonResponse => {
+      		if (!jsonResponse.tracks) {
+        		return [];
+      		}
+      		return jsonResponse.tracks.items.map(track => ({
+		        id: track.id,
+		        name: track.name,
+		        artist: track.artists[0].name,
+		        album: track.album.name,
+		        uri: track.uri
+      		}));
+    	});
 	},
 
 
