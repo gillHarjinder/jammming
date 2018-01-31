@@ -32,10 +32,10 @@ class App extends React.Component {
   }
 
 
-  /*
+    /*
       This method update the new created playlist name
-      by seting the state of playlist name
-  */
+      by setting the state of playlist name
+    */
 
   updatePlaylistName(name){
     this.setState({
@@ -44,10 +44,10 @@ class App extends React.Component {
   }
 
 
-  /*
+    /*
       This method is add the song to the 
       new playlist from search Results
-  */
+    */
   addTrack(track){
     let playlistTracks = this.state.playlistTracks;
     if(!playlistTracks.includes(track)){
@@ -56,12 +56,12 @@ class App extends React.Component {
     this.setState({playlistTracks});
   }
 
-  /**
+    /*
       This method is remove the song from the 
       new playlist 
       variable trackIndex get the Index of 'track' from newPlaylist
       then -> use splice method to remove that track from new list
-  */
+    */
   removeTrack(track){
     let playlistTracks = this.state.playlistTracks;
     let trackIndex = playlistTracks.findIndex(valueOfIndex => valueOfIndex.id === track.id);
@@ -72,12 +72,13 @@ class App extends React.Component {
 
 
     /*
-      This method generate the array 'trackURIs' form playlistTracks
+      This method generate the array 'trackURIs' form 
+      playlistTracks
 
-  */
+    */
   savePlaylist(){
     const trackURIs = this.state.playlistTracks.map(track => track.uri)
-    Spotify.savePlaylist(this.state.playlistName, trackURIs)
+    return Spotify.savePlaylist(this.state.playlistName, trackURIs)
     this.setState({
       searchResults: []
     });
@@ -88,9 +89,8 @@ class App extends React.Component {
 
     /*
      This method search song from Spotify Library 
-  */
+    */
   search(term){
-    console.log(`app js search method of ${term}`)
      return Spotify.search(term)
     .then(tracks => this.setState( { searchResults: tracks } ));
   }
