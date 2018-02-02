@@ -1,7 +1,10 @@
 const clientId = '156d20b13c1c46f7a31717bfdbf78589'
-//const redirectURI = 'http://kindly-net.surge.sh'
-const redirectURI = `http://localhost:3000/`
+const redirectURI = 'http://miniature-pet.surge.sh'
+//const redirectURI = 'http://localhost:3000/'
 const spotifyURL = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectURI}`
+const UserURL = 'https://api.spotify.com/v1/me';
+
+
 
 let accessToken = undefined
 let expirationTime = undefined
@@ -68,22 +71,31 @@ const Spotify = {
 	*/
 
 	savePlaylist(createdPlaylistName, trackURIs){
-		if(!createdPlaylistName || !trackURIs){
+		if(!createdPlaylistName || !trackURIs || trackURIs.length === 0){
 			return;
 		} else{
 			// Use the access token to access the spotify API
-			const url = 'https://api.spotify.com/v1/me';
    			const headers = {
-       			Authorization: `Bearer ' ${accessToken}`
+       			Authorization: `Bearer  ${accessToken}`
    			};
 
-   			let currentUserId
-   			let createdPlaylistId
-   			fetch(url, {
+   			let currentUserId, createdPlaylistId = {
+   				Authorization: `Bearer  ${accessToken}`
+   			}
+
+   			// GET current user's ID
+   			fetch(UserURL, {
    				headers: headers
    			})
-   			.then(response => response.json())
+   			.then(response => {
+   				if(response.ok){
+   					return response.json()
+   				} else {
+   					throw new Error('Get request for user ID is failed')
+   				}
+   			})
    			.then(jsonResponse => currentUserId = jsonResponse.id)
+   			// POST request to create the playlist
    			.then(() => { 
    				fetch(`https://api.spotify.com/v1/users/${currentUserId}/playlists`, {
    					method: 'POST',
@@ -92,8 +104,15 @@ const Spotify = {
    						name: createdPlaylistName
    					})
    				})
-   				.then(response => response.json())
+   				.then(response => {
+   					if(response.ok){
+   						return response.json()
+   					} else {
+   						throw new Error('POST request to create playlist is failed')
+   					}
+   				})
    				.then(jsonResponse => createdPlaylistId = jsonResponse.id)
+   				//POST request to save the playlist to the user's account
    				.then(() => {
    					fetch(`https://api.spotify.com/v1/users/${currentUserId}/playlists/${createdPlaylistId}/tracks`, {
    						method: 'POST',
@@ -105,6 +124,7 @@ const Spotify = {
    					
    				})
    			})
+   			
 
 		}
 	}
@@ -117,3 +137,6 @@ const Spotify = {
 
 
 export default Spotify;
+
+
+

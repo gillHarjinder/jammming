@@ -76,14 +76,13 @@ class App extends React.Component {
       playlistTracks
 
     */
-  savePlaylist(){
-    const trackURIs = this.state.playlistTracks.map(track => track.uri)
-    return Spotify.savePlaylist(this.state.playlistName, trackURIs)
+  savePlaylist() {
+    const uris = this.state.playlistTracks.map(track => track.uri);
+    Spotify.savePlaylist(this.state.playlistName, uris);
     this.setState({
       searchResults: []
     });
     this.updatePlaylistName('MyList');
-    console.info(trackURIs);
   }
 
 
@@ -91,7 +90,7 @@ class App extends React.Component {
      This method search song from Spotify Library 
     */
   search(term){
-     return Spotify.search(term)
+     Spotify.search(term)
     .then(tracks => this.setState( { searchResults: tracks } ));
   }
 
