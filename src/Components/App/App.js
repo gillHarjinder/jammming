@@ -63,10 +63,9 @@ class App extends React.Component {
       then -> use splice method to remove that track from new list
     */
   removeTrack(track){
-    let playlistTracks = this.state.playlistTracks;
-    let trackIndex = playlistTracks.findIndex(valueOfIndex => valueOfIndex.id === track.id);
-    playlistTracks.splice(trackIndex, 1);
-    this.setState({playlistTracks})
+    this.setState({
+      playlistTracks: this.state.playlistTracks.filter(playlistTrack => playlistTrack.id !== track.id)
+    });
   }
 
 
