@@ -49,11 +49,11 @@ class App extends React.Component {
       new playlist from search Results
     */
   addTrack(track){
-    let playlistTracks = this.state.playlistTracks;
-    if(!playlistTracks.includes(track)){
-      playlistTracks = playlistTracks.concat(track)
+    if(!this.state.playlistTracks.find(playlistTrack => playlistTrack.id === track.id)){
+      this.setState(prevState => ({
+        playlistTracks: [...prevState.playlistTracks, track]
+      }))
     }
-    this.setState({playlistTracks});
   }
 
     /*
