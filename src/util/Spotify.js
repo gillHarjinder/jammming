@@ -1,6 +1,6 @@
 const clientId = '156d20b13c1c46f7a31717bfdbf78589'
-//const redirectURI = 'http://miniature-pet.surge.sh'
-const redirectURI = 'http://localhost:3000/'
+const redirectURI = 'http://miniature-pet.surge.sh'
+//const redirectURI = 'http://localhost:3000/'
 const spotifyURL = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectURI}`
 const UserURL = 'https://api.spotify.com/v1/me';
 
@@ -56,6 +56,7 @@ const Spotify = {
       		}
       		return jsonResponse.tracks.items.map(track => ({
 		        id: track.id,
+            imageUrl: track.album.images[0].url,
 		        name: track.name,
 		        artist: track.artists[0].name,
 		        album: track.album.name,
